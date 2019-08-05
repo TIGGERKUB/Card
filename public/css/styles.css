@@ -2,3 +2,28 @@ body{
     background-color: #eaeaea;
     padding: 1% 10%;
 }
+
+#title{
+    margin: auto;
+    width: 50%;
+    text-align: center;
+}
+
+#business_card{
+    height: 60%;
+    margin: auto;
+    width: 80%;
+    text-align: center;
+    padding: 20% 18%;
+}
+
+#plus_icon{
+    font-size: 84px;
+}
+
+#img_form{
+    width: 300px;
+    height: 270px;
+    display: block;
+    margin: auto;
+}
