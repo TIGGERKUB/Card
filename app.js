@@ -1,11 +1,11 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-var upload = require("./uploads");
-var sharp = require("sharp");
+var upload = require("./public/js/uploadImg");
 
 var app = express();
 
-var newCardName = "";
+var cardNames = [];
+var errMessage = "";
 
 app.set("view engine", "ejs");
 
@@ -17,34 +17,28 @@ app.use(express.static("public"));
 
 app.get("/", function (req, res) {
     res.render("home", {
-        cardName: newCardName
+        cardName: cardNames
     });
 });
 
-// app.get("/upload",function(req,res){
+app.post("/upload", function (req, res) {
 
-// });
-
-app.post("/", upload.any(), function (req, res, next) {
-    // var tempPath = req.file.path;
-    // var targetPath = path.join(__dirname,"./upload/");
-    // var cardName = req.body.newCardName;
-    // console.log(cardName);
-    // console.log("tempPath:"+ tempPath);
-    // console.log("target:" + targetPath);
-    var query = req.body;
-    if(!req.body && !req.files){
-        res.json({success:false});
-    }else{
-        sharp(req.files[0].path).resize(300,270).toFile("public/uploads/"+"300x270-"+req.files[0].filename,function(err){
-            if(err){
-                console.error("sharp>>>",err);
-            }
-            console.log("Resizing Success!!");
-        });
-    }
-    
-    res.redirect("/");
+    upload(req, res, function (err) {
+        if (err) {
+            res.render("home", {
+                msg: err,
+                cardName: cardNames
+            });
+        } else {
+            var card = {
+                name: req.body.title
+            };
+            cardNames.push(card.name);
+            console.log(req.file);
+            console.log("title:" + req.body.title);
+            res.send("SUCCESS!");
+        }
+    });
 });
 
 app.listen(3000, function () {

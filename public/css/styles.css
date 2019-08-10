@@ -10,20 +10,14 @@ body{
 }
 
 #business_card{
-    height: 60%;
+    height: 20%;
     margin: auto;
-    width: 80%;
+    width: 50%;
     text-align: center;
-    padding: 20% 18%;
+    margin-top: 18px;
+    padding: 18% 18%;
 }
 
 #plus_icon{
-    font-size: 84px;
-}
-
-#img_form{
-    width: 300px;
-    height: 270px;
-    display: block;
-    margin: auto;
+    font-size: 72px;
 }

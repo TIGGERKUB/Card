@@ -1,16 +1,24 @@
 <%- include("header"); -%>
 
+<% if(typeof msg != 'undefined'){ %>
+<div class="alert alert-danger" role="alert">
+    Error: <%=msg.message%>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<%}%>
 <!--Title-->
 <div class="ui segment" id="title">
     <% if(cardName == "") {%>
-        <h1 class="display-4">Card Name</h1>
+    <h1 class="display-4">Card Name</h1>
     <%} else {%>
-        <h1 class="display-4"><%= cardName %></h1>
+    <h1 class="display-4"><%= cardName %></h1>
     <%};%>
 </div>
 
 <!--Card-->
-<div class="card mt-3" id="business_card">
+<div class="card" id="business_card">
     <a class="stretched-link text-primary" href="#" id="plus_icon" data-toggle="modal"
         data-target="#exampleModalScrollable"><i class="icon plus"></i></a>
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -35,7 +43,6 @@
             </a>-->
     </div>
 </div>
-
 <!-- Modal -->
 <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
@@ -47,20 +54,15 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="container" action="/" method="POST" enctype="multipart/form-data">
+            <form class="container" action="/upload" method="POST" enctype="multipart/form-data">
                 <div class="modal-body">
-                    <img src="images/id-card.png" id="img_form" alt="card">
-                    <div class="ui divider"></div>
-                    <div class="form-group row">
-                        <label class="col col-form-label">Card Name</label>
-                        <div class="col-9">
-                            <input type="text" class="form-control" name="newCardName" required>
-                        </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Card Name</label>
+                        <input type="text" class="form-control" name="title" id="exampleFormControlInput1" required>
                     </div>
                     <div class="form-group">
                         <input type="file" class="form-control-file" name="img" required>
                     </div>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
