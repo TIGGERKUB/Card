@@ -31,6 +31,11 @@ function checkFileType(file,cb){
     //Check ext
     var extname = filetypes.test(path.extname(file.originalname).toLowerCase());
     var mimetype = filetypes.test(file.mimetype);
+    if(mimetype && extname){
+        return cb(null,true);
+    }else{
+        cb("Error: Image Only!");
+    }
 }
 
 module.exports = upload;

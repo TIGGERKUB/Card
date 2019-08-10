@@ -1,6 +1,14 @@
 <%- include("header"); -%>
 
 <% if(typeof msg != 'undefined'){ %>
+<% if(msg == 'File Uploaded!'){ %>
+<div class="alert alert-success" role="alert">
+    <%=msg%>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<%}else{%>
 <div class="alert alert-danger" role="alert">
     Error: <%=msg.message%>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -8,41 +16,50 @@
     </button>
 </div>
 <%}%>
+<%}%>
 <!--Title-->
 <div class="ui segment" id="title">
-    <% if(cardName == "") {%>
-    <h1 class="display-4">Card Name</h1>
-    <%} else {%>
-    <h1 class="display-4"><%= cardName %></h1>
-    <%};%>
+    <h1 class="display-4">Name Card</h1>
 </div>
 
 <!--Card-->
-<div class="card" id="business_card">
-    <a class="stretched-link text-primary" href="#" id="plus_icon" data-toggle="modal"
-        data-target="#exampleModalScrollable"><i class="icon plus"></i></a>
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <!--<img src="..." class="d-block w-100" alt="...">-->
+<div class="bd-example" id="business_card">
+    <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
+        <!-- if there is image -->
+        <% if(typeof file != 'undefined'){%>
+        <div class="carousel-inner" id="inner_img">
+            <div class="carousel-item active" data-interval = "10000">
+                <img src="<%=typeof file != 'undefined'?file:''%>" class="img-fluid" alt="card-img" id="img_card">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5><%= cardName%></h5>
+                </div>
             </div>
-
+            <div class="carousel-item" style="padding: 30%" data-interval = "10000">
+                    <a class="stretched-link text-primary" href="#" id="plus_icon" data-toggle="modal"
+                        data-target="#exampleModalScrollable"><i class="icon plus"></i></a>
+            </div>
         </div>
-        <!-- <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>-->
+        <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev" id="arrow">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleInterval" role="button" data-slide="next" id="arrow">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+        <!-- if there is no image -->
+        <%}else{%>
+            <div class="carousel-inner" id="inner_img">
+                <div class="carousel-item active" style="padding: 30%" data-interval="10000">
+                    <a class="stretched-link text-primary" href="#" id="plus_icon" data-toggle="modal"
+                        data-target="#exampleModalScrollable"><i class="icon plus"></i></a>
+                </div>
+            </div>
+            <%}%>
     </div>
 </div>
+
+
 <!-- Modal -->
 <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
