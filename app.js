@@ -2,7 +2,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var upload = require("./public/js/uploadImg");
 
-var cardNames = [];
+var cards = [];
 
 var app = express();
 
@@ -16,7 +16,7 @@ app.use(express.static("public"));
 
 app.get("/", function (req, res) {
     res.render("home", {
-        cardName: cardNames
+        card: cards
     });
 });
 
@@ -26,17 +26,17 @@ app.post("/upload", function (req, res) {
         if (err) {
             res.render("home", {
                 msg: err,
-                cardName: cardNames
+                card: cards
             });
         } else {
-            var card = {
-                name: req.body.title
-            };
-            cardNames.push(card.name);
+            cards.push({
+                name: req.body.title,
+                content: req.body.content
+            });
             res.render("home", {
                 msg: "File Uploaded!",
                 file: `uploads/${req.file.filename}`,
-                cardName: cardNames
+                card: cards
             });
         }
     });
