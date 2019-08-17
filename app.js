@@ -25,28 +25,55 @@ var itemSchema = {
     content: String,
     img: {
         data: Buffer,
-        constentType: String
+        contentType: String
     }
 };
 
 var Item = mongoose.model("cards", itemSchema);
 
 app.get("/", function (req, res) {
-    Item.find({},function(err,cards){
-        // res.contentType(cards.contentType);
-        // res.send(cards.data);
-        res.render("home",{
+    Item.find({}, function (err, cards) {
+        res.render("home", {
             card: cards
         });
-        console.log(cards);
     });
+});
+
+app.get('/img', function (req, res, next) {
+    try {
+        Item.findOne({}, function (err, cards) {
+            if (err)
+                res.send(err);
+            if (cards) {
+                res.contentType(cards.img.contentType);
+                res.send(cards.img.data);
+            }
+        });
+    } catch (e) {
+        res.send(e);
+    }
+});
+
+app.get('/img/:id', function (req, res) {
+    try {
+        Item.findOne({
+            _id: req.params.id
+        }, function (err, cards) {
+            if (err)
+                res.send(err);
+             res.setHeader('content-type', cards.img.contentType);
+            res.send(cards.img.data);
+        });
+    } catch (e) {
+        res.send(e);
+    }
 });
 
 app.post("/", function (req, res) {
 
     upload(req, res, function (err) {
         if (err) {
-                console.log(err);
+            console.log(err);
         } else {
             //save to mongodb
             var cardName = req.body.title;
@@ -54,7 +81,7 @@ app.post("/", function (req, res) {
             var newCard = new Item({
                 name: cardName,
                 content: cardContent,
-                img:{
+                img: {
                     data: fs.readFileSync(req.file.path),
                     contentType: req.file.mimetype
                 }
@@ -63,7 +90,7 @@ app.post("/", function (req, res) {
             res.redirect("/");
         }
     });
-    
+
 });
 
 app.listen(4000, function () {
