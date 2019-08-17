@@ -1,13 +1,13 @@
 <%- include("header"); -%>
 
 <!-- Card -->
-<!-- if there is image -->
-<% if(typeof file != 'undefined'){%>
+<!-- if there is card -->
+<% if(typeof card != 'undefined'){%>
 <div class="ui cards">
     <% card.forEach(function(e){ %>
     <div class="card shadow bg-white rounded">
         <a class="image" href="#">
-            <img src="<%=typeof file != 'undefined'?file:''%>">
+            <img src="uploads/img-1566029268001.png" id="card_img">
         </a>
         <div class="content">
             <a class="header"><%= e.name %></a>
@@ -29,7 +29,7 @@
     </div>
 </div>
 
-<!-- if there is no image -->
+<!-- if there is no card -->
 <%}else{%>
 <div class="ui card shadow bg-white rounded">
     <a class="stretched-link text-primary image" href="#" id="plus_icon" data-toggle="modal"
@@ -54,7 +54,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form class="container" action="/upload" method="POST" enctype="multipart/form-data">
+                <form class="container" action="/" method="POST" enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="exampleFormControlInput1">Card Name</label>
