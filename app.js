@@ -2,6 +2,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var upload = require("./public/js/uploadImg");
 var mongoose = require("mongoose");
+var ObjectId = require('mongodb').ObjectID;
 var fs = require("fs");
 var _ = require("lodash");
 
@@ -39,6 +40,25 @@ app.get("/", function (req, res) {
     });
 });
 
+app.get("/post/:id", function (req, res) {
+    var requestId = req.params.id;
+    var slicedId = requestId.slice(1);
+    if (slicedId.match(/^[0-9a-fA-F]{24}$/)) {
+        // Yes, it's a valid ObjectId, proceed with `findById` call.
+        Item.findById(slicedId, function (err, cards) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.render("post", {
+                    card: cards
+                });
+            }
+        });
+    }else{
+        res.send(slicedId);
+    }
+});
+
 app.get('/img', function (req, res, next) {
     try {
         Item.findOne({}, function (err, cards) {
@@ -61,7 +81,7 @@ app.get('/img/:id', function (req, res) {
         }, function (err, cards) {
             if (err)
                 res.send(err);
-             res.setHeader('content-type', cards.img.contentType);
+            res.setHeader('content-type', cards.img.contentType);
             res.send(cards.img.data);
         });
     } catch (e) {
@@ -91,6 +111,16 @@ app.post("/", function (req, res) {
         }
     });
 
+});
+
+app.post("/delete", function (req, res) {
+    var itemId = req.body.remove;
+    Item.findByIdAndRemove(itemId, function (err) {
+        if (!err) {
+            console.log("remove " + itemId + " complete!");
+            res.redirect("/");
+        }
+    });
 });
 
 app.listen(4000, function () {

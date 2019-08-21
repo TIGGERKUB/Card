@@ -1,28 +1,40 @@
-<%- include("header"); -%>
+<%- include("partials/header") -%>
 
 <!-- Card -->
 <!-- if there is card -->
+
 <% if(typeof card != 'undefined'){%>
-<div class="ui link three stackable cards">
+<div class="ui link four stackable cards">
     <% card.forEach(function(e){ %>
     <div class="card shadow bg-white rounded">
-        <a class="image" href="#">
+        <div class="content">
+            <!-- remove button -->
+            <form class="header" action="/delete" method="POST"><%= e.name %>
+                <button type="submit" class="close" aria-label="Close" name="remove" value="<%=e._id%>">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </form>
+
+        </div>
+        <a class="image" href="/post/:<%=e._id%>">
             <img src="/img/<%=e._id%>" id="card_img">
         </a>
         <div class="content">
-            <a class="header"><%= e.name %></a>
-            <div class="meta">
-                <a><%= e.content %></a>
+            <div class="description">
+                <%= e.content.substring(0,30)+" . . ." %>
+                <a href="/post/:<%=e._id%>">Read more</a>
             </div>
         </div>
     </div>
     <%});%>
     <div class="card shadow bg-white rounded">
+        <div class="content">
+            <div class="header">Card</div>
+        </div>
         <a class="stretched-link text-primary image" href="#" id="plus_icon" data-toggle="modal"
             data-target="#exampleModalScrollable"><i class="plus icon"></i></a>
         <div class="content">
-            <a class="header">Card</a>
-            <div class="meta">
+            <div class="description">
                 <a>Click to add new card.</a>
             </div>
         </div>
@@ -32,11 +44,13 @@
 <!-- if there is no card -->
 <%}else{%>
 <div class="ui card shadow bg-white rounded">
+    <div class="content">
+        <div class="header">Card</div>
+    </div>
     <a class="stretched-link text-primary image" href="#" id="plus_icon" data-toggle="modal"
         data-target="#exampleModalScrollable"><i class="plus icon"></i></a>
     <div class="content">
-        <a class="header">Card</a>
-        <div class="meta">
+        <div class="description">
             <a>Click to add new card.</a>
         </div>
     </div>
@@ -54,7 +68,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form class="container" action="/" method="POST" enctype="multipart/form-data">
+                <form action="/" method="POST" enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="exampleFormControlInput1">Card Name</label>
@@ -77,4 +91,4 @@
             </div>
         </div>
     </div>
-    <%- include("footer"); -%>
+<%- include("partials/footer") -%>
