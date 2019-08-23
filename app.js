@@ -34,7 +34,7 @@ var Item = mongoose.model("cards", itemSchema);
 
 app.get("/", function (req, res) {
     Item.find({}, function (err, cards) {
-        res.render("home", {
+        res.render("gallery", {
             card: cards
         });
     });
@@ -123,6 +123,6 @@ app.post("/delete", function (req, res) {
     });
 });
 
-app.listen(4000, function () {
-    console.log("Server on port 4000");
+app.listen(3000, function () {
+    console.log("Server on port 3000");
 });
