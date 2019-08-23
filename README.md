@@ -1,2 +1,2 @@
 # Card
-This project's object is for store all cards in your wallet to this web application.
+This project's object is to keep the picture and story to web-application as private.
