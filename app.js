@@ -2,7 +2,6 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var upload = require("./public/js/uploadImg");
 var mongoose = require("mongoose");
-var ObjectId = require('mongodb').ObjectID;
 var fs = require("fs");
 var _ = require("lodash");
 
@@ -32,7 +31,11 @@ var itemSchema = {
 
 var Item = mongoose.model("cards", itemSchema);
 
-app.get("/", function (req, res) {
+app.get("/",function(req,res){
+    res.render("index");
+});
+
+app.get("/gallery", function (req, res) {
     Item.find({}, function (err, cards) {
         res.render("gallery", {
             card: cards
@@ -89,11 +92,12 @@ app.get('/img/:id', function (req, res) {
     }
 });
 
-app.post("/", function (req, res) {
+app.post("/gallery", function (req, res) {
 
     upload(req, res, function (err) {
         if (err) {
             console.log(err);
+            res.redirect("/gallery");
         } else {
             //save to mongodb
             var cardName = req.body.title;
@@ -107,7 +111,7 @@ app.post("/", function (req, res) {
                 }
             });
             newCard.save();
-            res.redirect("/");
+            res.redirect("/gallery");
         }
     });
 
@@ -118,7 +122,7 @@ app.post("/delete", function (req, res) {
     Item.findByIdAndRemove(itemId, function (err) {
         if (!err) {
             console.log("remove " + itemId + " complete!");
-            res.redirect("/");
+            res.redirect("/gallery");
         }
     });
 });

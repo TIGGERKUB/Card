@@ -1,0 +1,62 @@
+<%- include("partials/header") -%>
+<!-- login box -->
+<div class="ui card container" id="login_card">
+    <div class="content">
+        <div class="center aligned header" style="font-family: 'Playball',cursive;">Photograph</div>
+        <div class="description">
+            <form class="ui form" action="/" method="POST">
+                <div class="field">
+                    <label>Username</label>
+                    <input type="text" name="Username" placeholder="">
+                </div>
+                <div class="field">
+                    <label>Password</label>
+                    <input type="password" name="Password" placeholder="">
+                </div>
+                <div class="center aligned">
+                    <button class="ui button center" type="submit">Login</button>
+                    <a class="text-primary" href="#" data-toggle="modal" data-target="#exampleModalScrollable">sign
+                        up</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Registration</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/" method="POST">
+                <div class="modal-body">
+                    <div class="ui equal width form">
+                        <div class="field">
+                            <label>Username</label>
+                            <input type="text" placeholder="This name will be your profile name" required>
+                        </div>
+                        <div class="field">
+                            <label>Password</label>
+                            <input type="password" placeholder="Enter your password" required>
+                        </div>
+                        <div class="field">
+                            <label>Confirm-Password</label>
+                            <input type="password" placeholder="Re-Enter your password" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" value="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include("partials/footer") -%>

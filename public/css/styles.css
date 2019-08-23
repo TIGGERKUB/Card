@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Pacifico|Playball&display=swap');
+
 body{
-    background-color: #8bbabb;
+    background-color: #f6f6f6;
     padding: 3% 5%;
 }
 #plus_icon{
@@ -16,5 +18,10 @@ body{
 
 #card_delete{
     position: block;
+}
+
+#login_card{
+    font-size: 3rem;
+    width: 500px;
 }
 
