@@ -25,3 +25,13 @@ body{
     width: 500px;
 }
 
+#post_img{
+    width: 100%;
+    object-fit:cover;
+    position: relative;
+}
+
+#post_card{
+    margin-bottom: 5%;
+}
+

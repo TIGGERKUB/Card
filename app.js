@@ -1,9 +1,11 @@
+require('dotenv').config();
 var express = require("express");
 var bodyParser = require("body-parser");
 var upload = require("./public/js/uploadImg");
 var mongoose = require("mongoose");
 var fs = require("fs");
 var _ = require("lodash");
+var encrypt = require("mongoose-encryption");
 
 var app = express();
 
@@ -28,38 +30,32 @@ var itemSchema = {
         contentType: String
     }
 };
+var userSchema = new mongoose.Schema({
+    username: String,
+    password: String
+});
+console.log(process.env.SECRET);
 
+userSchema.plugin(encrypt, {
+    secret: process.env.SECRET,
+    encryptedFields: ["password"]
+});
+
+var User = mongoose.model("users", userSchema);
 var Item = mongoose.model("cards", itemSchema);
+var errorMessage = "";
 
-app.get("/",function(req,res){
+app.get("/", function (req, res) {
     res.render("index");
 });
 
 app.get("/gallery", function (req, res) {
     Item.find({}, function (err, cards) {
         res.render("gallery", {
-            card: cards
+            card: cards,
+            error: errorMessage
         });
     });
-});
-
-app.get("/post/:id", function (req, res) {
-    var requestId = req.params.id;
-    var slicedId = requestId.slice(1);
-    if (slicedId.match(/^[0-9a-fA-F]{24}$/)) {
-        // Yes, it's a valid ObjectId, proceed with `findById` call.
-        Item.findById(slicedId, function (err, cards) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.render("post", {
-                    card: cards
-                });
-            }
-        });
-    }else{
-        res.send(slicedId);
-    }
 });
 
 app.get('/img', function (req, res, next) {
@@ -92,11 +88,64 @@ app.get('/img/:id', function (req, res) {
     }
 });
 
+app.post("/post", function (req, res) {
+    var requestId = req.body.id;
+    Item.findById(requestId, function (err, cards) {
+        if (err) {
+            res.send(err);
+        } else {
+            res.render("post", {
+                card: cards
+            });
+        }
+    });
+});
+
+app.post("/login", function (req, res) {
+    var username = req.body.loginUsername;
+    var password = req.body.loginPassword;
+    User.findOne({
+        username: username
+    }, function (err, foundUser) {
+        if (err)
+            res.redirect("/gallery");
+            
+        else {
+            if (foundUser) {
+                if (foundUser.password === password) {
+                    res.redirect("/gallery");
+                } else {
+                    res.send("Invalid username or password ");
+                }
+            } else {
+                res.send("Register first");
+            }
+        }
+    });
+});
+
+app.post("/register", function (req, res) {
+    var newUser = new User({
+        username: req.body.registUsername,
+        password: req.body.registPassword
+    });
+    newUser.save(function (err) {
+        if (err)
+            console.log(err);
+        else {
+            console.log("Registration Success");
+            res.redirect("/");
+        }
+    });
+});
+
 app.post("/gallery", function (req, res) {
 
     upload(req, res, function (err) {
+        errorMessage = "";
         if (err) {
             console.log(err);
+            errorMessage = err;
             res.redirect("/gallery");
         } else {
             //save to mongodb

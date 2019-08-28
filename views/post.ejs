@@ -1,4 +1,10 @@
 <%- include("partials/header") -%>
-<h1><%= card.name %></h1>
-<p><%= card.content %></p>
+
+<div class="ui raised very padded text container segment" id="post_card">
+    <img src="/img/<%=card._id%>" id="post_img">
+    <br>
+    <h1 class="header"><%= card.name %></h1>
+    <p><%= card.content %></p>
+</div>
+
 <%- include("partials/footer") -%>

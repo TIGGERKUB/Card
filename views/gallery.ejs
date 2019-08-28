@@ -1,5 +1,16 @@
 <%- include("partials/header") -%>
 
+<!-- Alert -->
+
+<% if(error!=""){%>
+<div class=" alert alert-danger alert-dismissible fade show" role="alert">
+        <%=error%>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+</div>
+<%}%>
+
 <!-- Card -->
 <!-- if there is card -->
 
@@ -16,15 +27,16 @@
             </form>
 
         </div>
-        <a class="image" href="/post/:<%=e._id%>">
+        <a class="image">
             <img src="/img/<%=e._id%>" id="card_img">
         </a>
-        <div class="content">
+        <form class="content" action="/post" method="POST">
             <div class="description">
                 <%= e.content.substring(0,30)+" . . ." %>
-                <a href="/post/:<%=e._id%>">Read more</a>
+                <button class="tiny ui primary button ml-2" type="submit" name="id" value="<%=e._id%>">Read
+                    more</button>
             </div>
-        </div>
+        </form>
     </div>
     <%});%>
     <div class="ui card">
