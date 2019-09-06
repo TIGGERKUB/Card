@@ -1,2 +1,2 @@
 # Gallery
-This project's object is to keep the pictures as a gallery book to web-application privately.
+This project's object is to keep the pictures as private gallery.
