@@ -1,10 +1,16 @@
 <%- include("partials/header") -%>
+<div class="ui secondary menu" id="menu">
+    <div class="right menu">
+        <a class="ui inverted red button" href="/logout">
+            Logout
+        </a>
+    </div>
+</div>
 
 <!-- Alert -->
-
 <% if(error!=""){%>
 <div class=" alert alert-danger alert-dismissible fade show" role="alert">
-        <%=error%>
+    <%= error %>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -13,8 +19,8 @@
 
 <!-- Card -->
 <!-- if there is card -->
-
-<% if(typeof card != 'undefined'){%>
+<div class="gallery">
+    <% if(typeof card != 'undefined'){%>
 <div class="ui link four stackable cards">
     <% card.forEach(function(e){ %>
     <div class="ui card">
@@ -30,24 +36,30 @@
         <a class="image">
             <img src="/img/<%=e._id%>" id="card_img">
         </a>
-        <form class="content" action="/post" method="POST">
+        <div class="content">
             <div class="description">
-                <%= e.content.substring(0,30)+" . . ." %>
-                <button class="tiny ui primary button ml-2" type="submit" name="id" value="<%=e._id%>">Read
-                    more</button>
+                <%= e.content.substring(0,30)+" . . . "%>
+            </div>
+        </div>
+        <form class="extra content" action="/post" method="POST">
+            <div class="right floated author">
+                <button class="tiny ui right labeled icon button" type="submit" name="cardId" value="<%=e._id%>">
+                    <i class="right arrow icon"></i>
+                    Read more
+                </button>
             </div>
         </form>
     </div>
     <%});%>
     <div class="ui card">
         <div class="content">
-            <div class="header">Card</div>
+            <div class="header">Photo</div>
         </div>
         <a class="stretched-link text-primary image" href="#" id="plus_icon" data-toggle="modal"
             data-target="#exampleModalScrollable"><i class="plus icon"></i></a>
         <div class="content">
             <div class="description">
-                <a>Click to add new card.</a>
+                <a>Click to add new photo.</a>
             </div>
         </div>
     </div>
@@ -57,17 +69,18 @@
 <%}else{%>
 <div class="ui card">
     <div class="content">
-        <div class="header">Card</div>
+        <div class="header">Photo</div>
     </div>
     <a class="stretched-link text-primary image" href="#" id="plus_icon" data-toggle="modal"
         data-target="#exampleModalScrollable"><i class="plus icon"></i></a>
     <div class="content">
         <div class="description">
-            <a>Click to add new card.</a>
+            <a>Click to add new photo.</a>
         </div>
     </div>
 </div>
 <%}%>
+</div>
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"

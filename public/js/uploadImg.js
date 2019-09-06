@@ -2,9 +2,9 @@ var multer = require("multer");
 var path = require("path");
 //set storage engine
 var Storage = multer.diskStorage({
-    destination: function (req, file, callback) {
-        callback(null, 'public/uploads');
-    },
+    // destination: function (req, file, callback) {
+    //     callback(null, 'public/uploads');
+    // },
     filename: function (req, file, callback) {
 
         callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
@@ -17,7 +17,7 @@ var Storage = multer.diskStorage({
 var upload = multer({
     storage: Storage,
     limits: {
-        fileSize: 1000000
+        fileSize: 5000000
     },
     fileFilter: function(req,file,cb){
         checkFileType(file,cb);
